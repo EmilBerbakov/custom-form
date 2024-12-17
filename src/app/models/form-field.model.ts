@@ -5,11 +5,12 @@ export enum FormFieldTypes {
   'Datepicker' = 'datepicker',
   'Range Datepicker' = 'rangeDatepicker',
   'Select' = 'select',
+  'Text Area' = 'textarea',
   'Slider' = 'slider',
   'Checkbox' = 'checkbox',
   'Radio' = 'radio',
   'Timepicker' = 'timepicker',
-  'Range Timepicker' = 'rangeTimepicker'
+  'Button Toggle' = 'buttonToggle'
 }
 
 export interface FormField {
@@ -24,7 +25,7 @@ export interface FormField {
 }
 
 export interface Options {
-  value: string,
+  value: unknown,
   label: string
 }
 

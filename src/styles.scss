@@ -3,6 +3,6 @@
 
 html, body {
   height: 100%;
-  @include mat.form-field-density(-2);
+  @include mat.form-field-density(-3);
 }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

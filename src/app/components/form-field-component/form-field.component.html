@@ -1,32 +1,70 @@
 @let linkedFormFieldSub = linkedFormField();
+@let type = linkedFormFieldSub.type;
 
-  <mat-form-field>
-    <mat-label>{{ linkedFormFieldSub?.label ?? 'New Input' }}</mat-label>
-    @switch (linkedFormFieldSub.type) {
-      @case ('input') {
-        <input matInput [placeholder]="linkedFormFieldSub?.placeholder ?? ''">
+@switch(true) {
+  @case(type === 'input' || type === 'select' || type ==='textarea') {
+    <mat-form-field class="flex-container" [style.width]="linkedFormFieldSub?.size ?? '100%'">
+      <mat-label>{{ linkedFormFieldSub?.label ?? 'New Input' }}</mat-label>
+      @switch (type) {
+        @case ('input') {
+          <input matInput [placeholder]="linkedFormFieldSub?.placeholder ?? ''">
+        }
+        @case('select') {
+          <mat-select>
+            @for (option of linkedFormFieldSub.options; track option.value) {
+              <mat-option [value]="option.value"> {{ option.label }} </mat-option>
+            }
+          </mat-select>
+        }
+        @case('textarea') {
+          <textarea matInput></textarea>
+        }
       }
-      @case ('datepicker') {
-              <ng-container picker>
-                <span style="display: flex; max-width: fit-content; min-width: fit-content;">
-                  <input matInput [matDatepicker]="picker">
-                  <mat-datepicker-toggle [for]="picker"/>
-                  <mat-datepicker #picker/>
-                </span>
-              </ng-container>
+      @if (linkedFormFieldSub.hint ?? false) {
+        <mat-hint>{{ linkedFormFieldSub.hint }}</mat-hint>
       }
-      @case('rangeDatepicker') {
+    </mat-form-field>
+  }
+  @case(type === 'datepicker') {
+    <mat-form-field>
+      <mat-label>{{ linkedFormFieldSub?.label ?? 'New Input' }}</mat-label>
+      <input matInput [matDatepicker]="picker" [placeholder]="linkedFormFieldSub?.placeholder ?? ''">
+      <mat-datepicker-toggle matIconSuffix [for]="picker" />
+      <mat-datepicker #picker />
+    </mat-form-field>
+  }
+
+  @case(type === 'rangeDatepicker') {
+    <mat-form-field>
+      <mat-label>{{ linkedFormFieldSub?.label ?? 'New Input' }}</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date">
+        <input matEndDate placeholder="End date">
+      </mat-date-range-input>
+      @if (linkedFormFieldSub.hint ?? false) {
+        <mat-hint>{{ linkedFormFieldSub.hint }}</mat-hint>
       }
-      @case('select') {
-        <mat-select>
-          @for (option of linkedFormFieldSub.options; track option.value) {
-            <mat-option [value]="option.value"> {{ option.label }} </mat-option>
-          }
-        </mat-select>
-      }
-    }
-    @if (linkedFormFieldSub.hint ?? false) {
-      <mat-hint>{{ linkedFormFieldSub.hint }}</mat-hint>
-    }
-  </mat-form-field>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  }
+
+  @case (type==='buttonToggle') {
+    <div style="display: column; width: 100%;">
+      <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
+        @for (option of linkedFormFieldSub.options; track option.value) {
+          <mat-button-toggle [value]="option.value"> {{ option.label }} </mat-button-toggle>
+        }
+      </mat-button-toggle-group>
+      <div>
+        @if (linkedFormFieldSub.hint ?? false) {
+          <mat-hint>{{ linkedFormFieldSub.hint }}</mat-hint>
+        }
+      </div>
+    </div>
+  }
+}
+
+
+
 

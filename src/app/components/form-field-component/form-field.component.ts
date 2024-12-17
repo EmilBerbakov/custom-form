@@ -3,14 +3,17 @@ import { FormField } from '../../models/form-field.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
-import { CdkDrag } from '@angular/cdk/drag-drop';
 import { MatSelectModule } from '@angular/material/select';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-form-field',
-  imports: [MatFormFieldModule, MatInputModule, CommonModule, CdkDrag, MatSelectModule, MatDatepickerModule],
+  imports: [MatFormFieldModule, MatInputModule, CommonModule, MatSelectModule, MatDatepickerModule, MatIconModule, MatButtonModule, MatSliderModule, MatButtonToggleModule],
   providers: [provideNativeDateAdapter()],
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.scss'

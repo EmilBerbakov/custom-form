@@ -17,6 +17,12 @@ export class FormCanvasComponent {
 
   drop(event: CdkDragDrop<FormField>) {
     moveItemInArray(this.formFields, event.previousIndex, event.currentIndex);
+    this.formFields[event.currentIndex].position = event.currentIndex;
+    // probably don't have to update every time and can relegate that to a button press or maybe even have it on a debounce that adjusts it if none of the options are drag and dropped after a certain amount of time
+    for (let i = 0; i < this.formFields.length; i++) {
+      this.formFields[i].position = i;
+    }
+
     console.log(this.formFields)
   }
   addFormField(type: FormFieldTypes) {
@@ -28,7 +34,15 @@ export class FormCanvasComponent {
       size: '100%',
       placeholder: 'Testing',
       hint: 'hint text goes here',
-      formControlName: `${type}${amount-1}`
+      formControlName: `${type}${amount-1}`,
+      options: [
+        { label: '1', value: 1 },
+        { label: '2', value: 2 },
+        { label: '3', value: 3 },
+        { label: '4', value: 4 },
+        { label: '5', value: 5 },
+        { label: '6', value: 6 }
+      ]
     })
   }
 }
