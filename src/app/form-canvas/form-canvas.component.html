@@ -1,0 +1,9 @@
+<app-form-field-options (selection)="addFormField($event)" />
+<div cdkDropList cdkDropListOrientation="mixed" class="form-canvas" (cdkDropListDropped)="drop($event)">
+  @for (formField of formFields; track formField) {
+    <span cdkDrag>
+      <app-form-field [inputFormField]="formField"  />
+    </span>
+
+  }
+</div>

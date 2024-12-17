@@ -1,6 +1,8 @@
-<mat-select (selectionChange)="emitSelection($event.value)" [(value)]="selectedFormField">
-    <mat-option></mat-option>
-    @for (opt of formFieldOptions; track $index) {
-        <mat-option [value]="opt" > {{ opt }} </mat-option>
-    }
-</mat-select>
+<mat-form-field>
+  <mat-select (selectionChange)="emitSelection($event.value)" [formControl]="selectedFormField">
+      <mat-option [value]="null"></mat-option>
+      @for (opt of formFieldValues; track $index) {
+          <mat-option [value]="opt" > {{ formFieldLabels[$index] }} </mat-option>
+      }
+  </mat-select>
+</mat-form-field>

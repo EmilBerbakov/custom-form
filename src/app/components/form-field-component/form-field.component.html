@@ -1,0 +1,32 @@
+@let linkedFormFieldSub = linkedFormField();
+
+  <mat-form-field>
+    <mat-label>{{ linkedFormFieldSub?.label ?? 'New Input' }}</mat-label>
+    @switch (linkedFormFieldSub.type) {
+      @case ('input') {
+        <input matInput [placeholder]="linkedFormFieldSub?.placeholder ?? ''">
+      }
+      @case ('datepicker') {
+              <ng-container picker>
+                <span style="display: flex; max-width: fit-content; min-width: fit-content;">
+                  <input matInput [matDatepicker]="picker">
+                  <mat-datepicker-toggle [for]="picker"/>
+                  <mat-datepicker #picker/>
+                </span>
+              </ng-container>
+      }
+      @case('rangeDatepicker') {
+      }
+      @case('select') {
+        <mat-select>
+          @for (option of linkedFormFieldSub.options; track option.value) {
+            <mat-option [value]="option.value"> {{ option.label }} </mat-option>
+          }
+        </mat-select>
+      }
+    }
+    @if (linkedFormFieldSub.hint ?? false) {
+      <mat-hint>{{ linkedFormFieldSub.hint }}</mat-hint>
+    }
+  </mat-form-field>
+

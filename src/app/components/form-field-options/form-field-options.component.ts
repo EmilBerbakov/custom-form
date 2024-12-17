@@ -1,17 +1,28 @@
-import { Component, model, output } from '@angular/core';
-import {MatSelectModule} from '@angular/material/select';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, output } from '@angular/core';
+import {MatSelect, MatSelectModule} from '@angular/material/select';
+import { FormFieldTypes } from '../../models/form-field.model';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-form-field-options',
-  imports: [MatSelectModule],
+  imports: [MatSelectModule, ReactiveFormsModule],
+  providers: [MatSelect],
   templateUrl: './form-field-options.component.html',
-  styleUrl: './form-field-options.component.scss'
+  styleUrl: './form-field-options.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormFieldOptionsComponent {
-readonly formFieldOptions = ['Input', 'Select', 'DatePicker', 'DateRangePicker', 'TimePicker', 'Radio', 'Slider', 'CheckBox', 'Toggle'];
-selection = output<string>();
-selectedFormField = model(null);
+
+  matSelect = inject(MatSelect);
+  cdr = inject(ChangeDetectorRef);
+
+  readonly formFieldTypes = FormFieldTypes;
+  readonly formFieldValues= Object.values(this.formFieldTypes);
+  readonly formFieldLabels = Object.keys(this.formFieldTypes);
+
+  selection = output<FormFieldTypes>();
+  selectedFormField = new FormControl();
 
 //This will communicate with the 2d canvas
 
@@ -22,13 +33,15 @@ selectedFormField = model(null);
 //Have the 2D canvas create an instance of a custom component whenever output procs
 //The output will be given as an input to this custom component instance
 //within the custom component will be a switch case that renders each type of form field with editable features
-//  for example: each will have an editable label, placeholder, and hint text; 
+//  for example: each will have an editable label, placeholder, and hint text;
 //the select will have the ability to add options. this will be done by pusing to a modal array that is tied to the @for
 //for the option looping (as a nice-to-have also have a message that displays when the modal is @empty)
 //the options will be rendered on a 1D column drag-and-drop so that the user can move the options around if they so choose
 emitSelection(selection: string): void {
-this.selection.emit(selection);
-this.selectedFormField.set(null);
+if (selection) {
+  this.selection.emit(selection as FormFieldTypes);
+  this.selectedFormField.reset();
+  }
 }
 
 }

@@ -57,7 +57,14 @@ On save, we will look at what is in the 2d canvas and build out a JSON object th
                                         "type": string,
                                         "value": string | number
                                     }
-                                ]
+                                ],
+                            "options":
+                              [
+                                {
+                                  "value": any,
+                                  "label": string
+                                }
+                              ]
                         }
                     ]
 
@@ -76,3 +83,6 @@ Each form field will have a size attribute that can be either 1, .75, .666, .5, 
     "value: 3
 }
 ```
+
+Alternatively, a page could be a flex area with row wrap, so each page just has one array of form fields, and then they are placed in the row wrap based on their position in the array.
+Also, we may need to implement a position property for a form field to ensure order. That will just be an int and then they will be sorted asc by that position property value.
