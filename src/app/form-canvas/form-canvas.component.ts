@@ -1,18 +1,20 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormField, FormFieldTypes } from '../models/form-field.model';
 import { FormFieldComponent } from './../components/form-field-component/form-field.component';
 import { FormFieldOptionsComponent } from '../components/form-field-options/form-field-options.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-form-canvas',
-  imports: [CdkDropList, FormFieldComponent, FormFieldOptionsComponent, CdkDrag],
+  imports: [CdkDropList, FormFieldComponent, FormFieldOptionsComponent, CdkDrag, MatSlideToggleModule],
   templateUrl: './form-canvas.component.html',
   styleUrl: './form-canvas.component.scss'
 })
 export class FormCanvasComponent {
 
+  readonly editMode = input(true);
   formFields: FormField[] = [];
 
   drop(event: CdkDragDrop<FormField>) {

@@ -1,4 +1,4 @@
-export type FormFieldSize = '100%' | '75%' | '66%' | '50%' | '33%' | '25%';
+export type FormFieldSize = '100%' | '75%' | '66%' | '50%' | '33%';
 
 export enum FormFieldTypes {
   'Input' = 'input',

@@ -1,8 +1,15 @@
-<app-form-field-options (selection)="addFormField($event)" />
-<div cdkDropList cdkDropListOrientation="mixed" class="form-canvas" (cdkDropListDropped)="drop($event)">
+<!-- @if (editMode()) { -->
+ <!-- TODO - Hide this if not in edit mode, but also make sure the dropList doesn't break. Content Projection, most likely -->
+<span class="form-canvas">
+  <app-form-field-options (selection)="addFormField($event)" />
+  <mat-slide-toggle labelPosition="before" #slider>Editing: {{ slider.checked ? 'On' : 'Off' }}</mat-slide-toggle>
+</span>
+<!-- } -->
+
+<div cdkDropList cdkDropListOrientation="mixed" class="form-canvas" (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="!slider.checked">
   @for (formField of formFields; track formField) {
-    <span cdkDrag>
-      <app-form-field [inputFormField]="formField"  />
+    <span cdkDrag class="flex-container">
+      <app-form-field [inputFormField]="formField" />
     </span>
 
   }

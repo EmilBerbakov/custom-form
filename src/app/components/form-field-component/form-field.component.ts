@@ -20,11 +20,4 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 })
 export class FormFieldComponent {
   inputFormField = input.required<FormField>();
-  linkedFormField = linkedSignal(() => this.inputFormField());
-  datepickerOption = computed(() => `datepicker${this.linkedFormField().position}`);
-  notLoaded = true;
-
-  ngOnInit(): void {
-    this.notLoaded = false;
-  }
 }
