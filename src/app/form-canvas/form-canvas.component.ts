@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormField, FormFieldTypes } from '../models/form-field.model';
 import { FormFieldComponent } from './../components/form-field-component/form-field.component';
@@ -7,7 +7,7 @@ import { FormFieldOptionsComponent } from '../components/form-field-options/form
 
 @Component({
   selector: 'app-form-canvas',
-  imports: [CdkDropList, CommonModule, FormFieldComponent, FormFieldOptionsComponent, CdkDrag],
+  imports: [CdkDropList, FormFieldComponent, FormFieldOptionsComponent, CdkDrag],
   templateUrl: './form-canvas.component.html',
   styleUrl: './form-canvas.component.scss'
 })
