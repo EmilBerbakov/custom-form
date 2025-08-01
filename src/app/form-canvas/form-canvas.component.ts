@@ -5,10 +5,13 @@ import { FormField, FormFieldTypes } from '../models/form-field.model';
 import { FormFieldComponent } from './../components/form-field-component/form-field.component';
 import { FormFieldOptionsComponent } from '../components/form-field-options/form-field-options.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-form-canvas',
-  imports: [CdkDropList, FormFieldComponent, FormFieldOptionsComponent, CdkDrag, MatSlideToggleModule],
+  imports: [CdkDropList, FormFieldComponent, FormFieldOptionsComponent, CdkDrag, MatSlideToggleModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './form-canvas.component.html',
   styleUrl: './form-canvas.component.scss'
 })
@@ -34,7 +37,7 @@ export class FormCanvasComponent {
       type: type,
       position: amount - 1,
       size: '100%',
-      placeholder: 'Testing',
+      placeholder: 'Placeholder text goes here',
       hint: 'hint text goes here',
       formControlName: `${type}${amount-1}`,
       options: [
@@ -46,5 +49,9 @@ export class FormCanvasComponent {
         { label: '6', value: 6 }
       ]
     })
+  }
+
+  removeFormField(field: number) {
+    this.formFields.splice(field, 1);
   }
 }

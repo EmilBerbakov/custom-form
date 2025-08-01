@@ -49,6 +49,7 @@
     }
 
     @case (type==='buttonToggle') {
+        <div style="font: var(--mat-sys-label-small)">{{ linkedFormFieldSub?.label }}</div>
         <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
           @for (option of linkedFormFieldSub.options; track option.value) {
             <mat-button-toggle [value]="option.value"> {{ option.label }} </mat-button-toggle>

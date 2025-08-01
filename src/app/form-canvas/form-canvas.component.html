@@ -1,15 +1,23 @@
+<!-- We'll be using this a lot-->
+@let canEdit = editMode();
+
 <!-- @if (editMode()) { -->
  <!-- TODO - Hide this if not in edit mode, but also make sure the dropList doesn't break. Content Projection, most likely -->
 <span class="form-canvas">
   <app-form-field-options (selection)="addFormField($event)" />
-  <mat-slide-toggle labelPosition="before" #slider>Editing: {{ slider.checked ? 'On' : 'Off' }}</mat-slide-toggle>
+  <mat-slide-toggle labelPosition="before" #slider>Re-arranging Form Fields: {{ slider.checked ? 'Enabled' : 'Disabled' }}</mat-slide-toggle>
 </span>
 <!-- } -->
 
 <div cdkDropList cdkDropListOrientation="mixed" class="form-canvas" (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="!slider.checked">
   @for (formField of formFields; track formField) {
-    <span cdkDrag class="flex-container">
+    <span cdkDrag class="flex-container" cdkDragBoundary=".form-canvas">
       <app-form-field [inputFormField]="formField" />
+      @if(canEdit) {
+        <button mat-icon-button (click)="removeFormField($index)" matTooltip="Delete Form Field"><mat-icon>close</mat-icon></button>
+        <button mat-icon-button matTooltip="Edit Form Field Label"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button matTooltip="Edit Form Field Width"><mat-icon>transform</mat-icon></button>
+      }
     </span>
 
   }
