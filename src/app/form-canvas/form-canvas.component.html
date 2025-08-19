@@ -5,11 +5,12 @@
  <!-- TODO - Hide this if not in edit mode, but also make sure the dropList doesn't break. Content Projection, most likely -->
 <span class="form-canvas">
   <app-form-field-options (selection)="addFormField($event)" />
-  <mat-slide-toggle labelPosition="before" #slider>Re-arranging Form Fields: {{ slider.checked ? 'Enabled' : 'Disabled' }}</mat-slide-toggle>
+  <mat-slide-toggle labelPosition="before" #rearrangingSlider>Re-arranging Form Fields: {{ rearrangingSlider.checked ? 'Enabled' : 'Disabled' }}</mat-slide-toggle>
+  <mat-slide-toggle labelPosition="before" #previewSlider>Preview : {{ previewSlider.checked ? 'Enabled' : 'Disabled' }}</mat-slide-toggle>
 </span>
 <!-- } -->
 
-<div cdkDropList cdkDropListOrientation="mixed" class="form-canvas" (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="!slider.checked">
+<div cdkDropList cdkDropListOrientation="mixed" class="form-canvas" (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="!rearrangingSlider.checked">
   @for (formField of formFields; track formField) {
     <span cdkDrag class="flex-container" cdkDragBoundary=".form-canvas">
       <app-form-field [inputFormField]="formField" />

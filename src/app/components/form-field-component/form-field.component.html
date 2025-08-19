@@ -1,16 +1,117 @@
-@let linkedFormFieldSub = inputFormField();
-@let type = linkedFormFieldSub.type;
-  @switch(true) {
+@let formFieldSub = inputFormField();
+@let type = formFieldSub.type;
+
+  @if(usesMatFormField()) {
+    <mat-form-field [style.width]="formFieldSub.size">
+      <mat-label>{{ formFieldSub?.label ?? 'New Input' }}</mat-label>
+        @switch (type) {
+
+          @case (fft.Input) {
+            <input matInput [placeholder]="formFieldSub?.placeholder ?? ''" [formControlName]=" stringAssert(formFieldSub.formControlName)">
+          }
+
+          @case (fft['Text Area']) {
+            <textarea matInput [formControlName]="stringAssert(formFieldSub.formControlName)"></textarea>
+          }
+
+          @case (fft.Select) {
+            <mat-select [formControlName]="stringAssert(formFieldSub.formControlName)">
+              @for (option of formFieldSub.options; track option.value) {
+                <mat-option [value]="option.value"> {{ option.label }} </mat-option>
+              }
+            </mat-select>
+          }
+
+          @case (fft.Datepicker) {
+              <ng-container>
+                <input matInput [matDatepicker]="picker" [placeholder]="formFieldSub?.placeholder ?? ''" [formControlName]="stringAssert(formFieldSub.formControlName)">
+                <mat-datepicker-toggle matIconSuffix [for]="picker" #inner />
+                <mat-datepicker #picker />
+              </ng-container>
+          }
+
+          @case (fft['Range Datepicker']) {
+            <ng-container>
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date" [formControlName]="stringAssert(formFieldSub.groupOfFormControls![0].value)">
+                <input matEndDate placeholder="End date" [formControlName]="stringAssert(formFieldSub.groupOfFormControls![1].value)">
+                <mat-datepicker-toggle matIconSuffix [for]="picker" />
+                <mat-date-range-picker #picker/>
+              </mat-date-range-input>
+            </ng-container>
+          }
+
+          @case(fft.Timepicker) {
+            <ng-container>
+                <mat-label>Pick a time</mat-label>
+                <input matInput [matTimepicker]="picker">
+                <mat-timepicker-toggle matIconSuffix [for]="picker"/>
+                <mat-timepicker #picker/>
+            </ng-container>
+          }
+        }
+      @if (formFieldSub?.hint) {
+        <mat-hint>{{ formFieldSub.hint }}</mat-hint>
+      }
+    </mat-form-field>
+  }
+
+  @else {
+    <div style="font: var(--mat-sys-label-small)">{{ formFieldSub?.label }}</div>
+    @switch (formFieldSub.type) {
+      @case(fft.Slider) {
+        <mat-slider [min]="formFieldSub?.sliderValues?.min ?? 1" [max]="formFieldSub?.sliderValues?.max ?? 10" [style.width]="formFieldSub.size">
+          <input matSliderThumb [value]="formFieldSub?.defaultValue ?? 1" [formControlName]="stringAssert(formFieldSub.formControlName)">
+        </mat-slider>
+      }
+
+      @case(fft.Checkbox) {
+        <section class="flex-container" [style.width]="formFieldSub.size">
+          @if (formFieldSub?.groupOfFormControls) {
+            @for (fcn of formFieldSub.groupOfFormControls; track fcn) {
+              <mat-checkbox [formControlName]="stringAssert(fcn.value)">{{fcn.label}}</mat-checkbox>
+            }
+          }
+          @else {
+            <mat-checkbox [formControlName]="stringAssert(formFieldSub.formControlName)">{{formFieldSub.label}}</mat-checkbox>
+          }
+        </section>
+      }
+
+      @case(fft.Radio) {
+        <mat-radio-group [formControlName]="stringAssert(formFieldSub.formControlName)" [style.width]="formFieldSub.size">
+          @for (option of formFieldSub.options; track option.value) {
+            <mat-radio-button [value]="option.value">{{option.label}}</mat-radio-button>
+          }
+        </mat-radio-group>
+      }
+
+      @case(fft['Button Toggle']) {
+        <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
+          @for (option of formFieldSub.options; track option.value) {
+            <mat-button-toggle [value]="option.value"> {{ option.label }} </mat-button-toggle>
+          }
+        </mat-button-toggle-group>
+      }
+    }
+    @if (formFieldSub?.hint) {
+      <mat-hint>{{ formFieldSub.hint }}</mat-hint>
+    }
+  }
+
+
+
+  <!-- @switch(true) {
     @case(type === 'input' || type === 'select' || type ==='textarea') {
-      <mat-form-field [style.width]="linkedFormFieldSub?.size ?? '100%'">
-        <mat-label>{{ linkedFormFieldSub?.label ?? 'New Input' }}</mat-label>
+      <mat-form-field [style.width]="formFieldSub?.size ?? '100%'">
+        <mat-label>{{ formFieldSub?.label ?? 'New Input' }}</mat-label>
         @switch (type) {
           @case ('input') {
-            <input matInput [placeholder]="linkedFormFieldSub?.placeholder ?? ''">
+            <input matInput [placeholder]="formFieldSub?.placeholder ?? ''">
           }
           @case('select') {
             <mat-select>
-              @for (option of linkedFormFieldSub.options; track option.value) {
+              @for (option of formFieldSub.options; track option.value) {
                 <mat-option [value]="option.value"> {{ option.label }} </mat-option>
               }
             </mat-select>
@@ -19,29 +120,29 @@
             <textarea matInput></textarea>
           }
         }
-        @if (linkedFormFieldSub.hint ?? false) {
-          <mat-hint>{{ linkedFormFieldSub.hint }}</mat-hint>
+        @if (formFieldSub.hint ?? false) {
+          <mat-hint>{{ formFieldSub.hint }}</mat-hint>
         }
       </mat-form-field>
     }
     @case(type === 'datepicker') {
-      <mat-form-field [style.min-width]="linkedFormFieldSub?.size ?? '100%'">
-        <mat-label>{{ linkedFormFieldSub?.label ?? 'New Input' }}</mat-label>
-        <input matInput [matDatepicker]="picker" [placeholder]="linkedFormFieldSub?.placeholder ?? ''">
+      <mat-form-field [style.min-width]="formFieldSub?.size ?? '100%'">
+        <mat-label>{{ formFieldSub?.label ?? 'New Input' }}</mat-label>
+        <input matInput [matDatepicker]="picker" [placeholder]="formFieldSub?.placeholder ?? ''">
         <mat-datepicker-toggle matIconSuffix [for]="picker" />
         <mat-datepicker #picker />
       </mat-form-field>
     }
 
     @case(type === 'rangeDatepicker') {
-      <mat-form-field [style.width]="linkedFormFieldSub?.size ?? '100%'">
-        <mat-label>{{ linkedFormFieldSub?.label ?? 'New Input' }}</mat-label>
+      <mat-form-field [style.width]="formFieldSub?.size ?? '100%'">
+        <mat-label>{{ formFieldSub?.label ?? 'New Input' }}</mat-label>
         <mat-date-range-input [rangePicker]="picker">
           <input matStartDate placeholder="Start date">
           <input matEndDate placeholder="End date">
         </mat-date-range-input>
-        @if (linkedFormFieldSub?.hint ?? false) {
-          <mat-hint>{{ linkedFormFieldSub.hint }}</mat-hint>
+        @if (formFieldSub?.hint ?? false) {
+          <mat-hint>{{ formFieldSub.hint }}</mat-hint>
         }
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker/>
@@ -49,19 +150,19 @@
     }
 
     @case (type==='buttonToggle') {
-        <div style="font: var(--mat-sys-label-small)">{{ linkedFormFieldSub?.label }}</div>
+        <div style="font: var(--mat-sys-label-small)">{{ formFieldSub?.label }}</div>
         <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
-          @for (option of linkedFormFieldSub.options; track option.value) {
+          @for (option of formFieldSub.options; track option.value) {
             <mat-button-toggle [value]="option.value"> {{ option.label }} </mat-button-toggle>
           }
         </mat-button-toggle-group>
         <div>
-          @if (linkedFormFieldSub?.hint ?? false) {
-            <mat-hint>{{ linkedFormFieldSub.hint }}</mat-hint>
+          @if (formFieldSub?.hint ?? false) {
+            <mat-hint>{{ formFieldSub.hint }}</mat-hint>
           }
         </div>
     }
-  }
+  } -->
 
 
 

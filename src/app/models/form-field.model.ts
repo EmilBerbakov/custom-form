@@ -21,7 +21,14 @@ export interface FormField {
   hint?: string,
   placeholder?: string,
   options?: Options[],
-  formControlName: string
+  formControlName?: string,
+  groupOfFormControls?: Options[],
+  sliderValues?: {
+    min: number,
+    max: number,
+    step: number
+  },
+  defaultValue?: string | number | Date
 }
 
 export interface Options {

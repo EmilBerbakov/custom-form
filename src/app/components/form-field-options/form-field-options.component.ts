@@ -34,7 +34,7 @@ export class FormFieldOptionsComponent {
 //The output will be given as an input to this custom component instance
 //within the custom component will be a switch case that renders each type of form field with editable features
 //  for example: each will have an editable label, placeholder, and hint text;
-//the select will have the ability to add options. this will be done by pusing to a modal array that is tied to the @for
+//the select will have the ability to add options. this will be done by pushing to a modal array that is tied to the @for
 //for the option looping (as a nice-to-have also have a message that displays when the modal is @empty)
 //the options will be rendered on a 1D column drag-and-drop so that the user can move the options around if they so choose
 emitSelection(selection: string): void {
